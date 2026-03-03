@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Waste Segregation Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom, #f0f9ff, #e1f5fe);
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #10b981, #059669, #047857);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-25%);
+                animation-timing-function: cubic-bezier(0.8,0,1,1);
+            }
+            50% {
+                transform: none;
+                animation-timing-function: cubic-bezier(0,0,0.2,1);
+            }
+        }
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+        .lookup-item-card {
+            background-color: #fff;
+            border: 2px solid #34d399;
+            box-shadow: 0 10px 15px -3-px rgba(0, 0, 0, 0.1), 0 4px 6px -2-px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+        }
+        .lookup-item-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .faq-item-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            background-color: #fff;
+            border-radius: 0.75rem;
+            cursor: pointer;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+        }
+        .faq-answer.open {
+            max-height: 500px;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body onload="showPage('home')">
+    <header class="bg-white shadow-lg fixed top-0 w-full z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM8 20V4h2v16H8zm4-2h2V6h-2v12zm4-2h2V8h-2v8z"/>
+                </svg>
+                <h1 class="text-2xl font-bold text-green-600">EcoGuide</h1>
+            </div>
+            <div class="flex space-x-4 md:space-x-8 text-sm md:text-base">
+                <a href="#home" class="nav-link text-gray-600 hover:text-green-500 transition-colors duration-300" onclick="showPage('home')">Home</a>
+                <a href="#waste-types" class="nav-link text-gray-600 hover:text-green-500 transition-colors duration-300" onclick="showPage('waste-types')">Waste Types</a>
+                <a href="#regulations" class="nav-link text-gray-600 hover:text-green-500 transition-colors duration-300" onclick="showPage('regulations')">Regulations</a>
+                <a href="#upcycling" class="nav-link text-gray-600 hover:text-green-500 transition-colors duration-300" onclick="showPage('upcycling')">Upcycling</a>
+                <a href="#tips" class="nav-link text-gray-600 hover:text-green-500 transition-colors duration-300" onclick="showPage('tips')">Tips</a>
+                <div class="relative inline-block text-left">
+                    <button id="services-dropdown-btn" class="nav-link text-gray-600 hover:text-green-500 transition-colors duration-300 flex items-center" onclick="toggleDropdown()">
+                        Services
+                        <svg class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="services-dropdown-menu" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="services-dropdown-btn">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" onclick="showPage('contact')">Contact</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" onclick="showPage('faq')">FAQ</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" onclick="showPage('about')">About</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" onclick="showPage('privacy-policy')">Privacy Policy</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" onclick="showPage('terms-of-service')">Terms of Service</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-20">
+        <!-- Home Section -->
+        <div id="home" class="page-content active">
+            <!-- Hero Section -->
+            <section class="relative hero-section min-h-screen flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                <div class="relative z-10 container mx-auto px-6 text-center">
+                    <div class="max-w-4xl mx-auto">
+                        <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                            Transform Your Home into an
+                            <span class="text-green-300">Eco-Friendly</span> Haven
+                        </h1>
+                        <p class="text-xl md:text-2xl mb-8 text-green-100 leading-relaxed">
+                            Master the art of waste segregation and make a meaningful impact on our planet, one household at a time.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            <button onclick="showPage('waste-types')" class="bg-white text-green-700 font-bold py-4 px-8 rounded-full shadow-lg hover:bg-green-50 transition-all duration-300 transform hover:scale-105">
+                                Start Learning Now
+                            </button>
+                            <button onclick="lookupWaste()" class="border-2 border-white text-white font-bold py-4 px-8 rounded-full hover:bg-white hover:text-green-700 transition-all duration-300">
+                                Quick Waste Lookup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Icons -->
+                <div class="absolute top-20 left-10 text-green-300 opacity-20 animate-pulse">
+                    <svg class="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <div class="absolute bottom-32 right-10 text-green-400 opacity-20 animate-bounce">
+                    <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Impact Statistics -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Making a Real Difference</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Join thousands of households already transforming their environmental impact through smart waste management.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                        <div class="text-center group">
+                            <div class="bg-green-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition-colors duration-300">
+                                <span class="text-3xl font-bold text-green-700">75%</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Recyclable Waste</h3>
+                            <p class="text-gray-600">of household waste can be recycled or composted with proper segregation</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="bg-blue-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors duration-300">
+                                <span class="text-3xl font-bold text-blue-700">50%</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Landfill Reduction</h3>
+                            <p class="text-gray-600">less waste sent to landfills with effective home segregation practices</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="bg-purple-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 transition-colors duration-300">
+                                <span class="text-3xl font-bold text-purple-700">30%</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Emission Reduction</h3>
+                            <p class="text-gray-600">lower greenhouse gas emissions through proper waste management</p>
+                        </div>
+                        <div class="text-center group">
+                            <div class="bg-yellow-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-200 transition-colors duration-300">
+                                <span class="text-2xl font-bold text-yellow-700">$200</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Annual Savings</h3>
+                            <p class="text-gray-600">average household savings per year through efficient waste practices</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Benefits Section -->
+            <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Why Waste Segregation Matters</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Your daily choices create powerful ripple effects that benefit the environment, your community, and your family.</p>
+                    </div>
+
+                    <!-- Environment Benefits -->
+                    <div class="mb-20">
+                        <div class="flex flex-col lg:flex-row items-center gap-12 max-w-7xl mx-auto">
+                            <div class="lg:w-1/2">
+                                <div class="flex items-center mb-6">
+                                    <div class="bg-green-500 rounded-full p-3 mr-4">
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-3xl font-bold text-green-600">For the Environment</h3>
+                                </div>
+                                <div class="space-y-6">
+                                    <div class="flex items-start space-x-4">
+                                        <div class="bg-green-100 rounded-full p-2 mt-1">
+                                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xl font-semibold text-gray-800 mb-2">Reduce Landfill Waste</h4>
+                                            <p class="text-gray-600">Drastically minimize trash sent to landfills, reducing pollution and harmful greenhouse gas emissions.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-4">
+                                        <div class="bg-green-100 rounded-full p-2 mt-1">
+                                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xl font-semibold text-gray-800 mb-2">Conserve Natural Resources</h4>
+                                            <p class="text-gray-600">Enable effective recycling, reducing the need for raw resource extraction and protecting natural habitats.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-4">
+                                        <div class="bg-green-100 rounded-full p-2 mt-1">
+                                            <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xl font-semibold text-gray-800 mb-2">Prevent Pollution</h4>
+                                            <p class="text-gray-600">Proper disposal prevents toxic chemicals from leaching into soil, water, and air.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lg:w-1/2">
+                                <div class="bg-gradient-to-br from-green-400 to-green-600 rounded-3xl p-8 text-white shadow-2xl">
+                                    <div class="text-center">
+                                        <svg class="w-24 h-24 mx-auto mb-6 opacity-80" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                                        </svg>
+                                        <h4 class="text-2xl font-bold mb-4">Environmental Impact</h4>
+                                        <p class="text-green-100 leading-relaxed">Every piece of waste you segregate correctly contributes to a healthier planet and a more sustainable future for generations to come.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Community & Personal Benefits -->
+                    <div class="grid lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
+                        <!-- Community Benefits -->
+                        <div>
+                            <div class="flex items-center mb-6">
+                                <div class="bg-blue-500 rounded-full p-3 mr-4">
+                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4.5c0-.83.67-1.5 1.5-1.5S7 12.67 7 13.5V16h2c0 1.11-.89 2-2 2s-2-.89-2-2z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-3xl font-bold text-blue-600">For the Community</h3>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-blue-500">
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Municipal Efficiency</h4>
+                                    <p class="text-gray-600">Clean, sorted waste is significantly easier and cheaper for municipalities to process and manage.</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-blue-500">
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Public Health</h4>
+                                    <p class="text-gray-600">Reduces disease spread and prevents harmful air pollution from improper waste burning.</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-blue-500">
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Economic Growth</h4>
+                                    <p class="text-gray-600">Creates sustainable jobs in recycling, composting, and green technology industries.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personal Benefits -->
+                        <div>
+                            <div class="flex items-center mb-6">
+                                <div class="bg-purple-500 rounded-full p-3 mr-4">
+                                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-3xl font-bold text-purple-600">For You & Your Family</h3>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-purple-500">
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Cleaner Home Environment</h4>
+                                    <p class="text-gray-600">Separating organic waste reduces unpleasant odors and pest problems in your kitchen and home.</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-purple-500">
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Personal Empowerment</h4>
+                                    <p class="text-gray-600">Take direct, tangible action to contribute to environmental solutions and feel good about your impact.</p>
+                                </div>
+                                <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-purple-500">
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Peace of Mind</h4>
+                                    <p class="text-gray-600">Know that you're making a positive difference with every conscious choice you make.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Waste Segregation Guide -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Simple 4-Bin System</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Master waste segregation with our easy-to-follow color-coding system. It's simpler than you think!</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                        <!-- Organic Waste -->
+                        <div class="group">
+                            <div class="bg-gradient-to-br from-green-100 to-green-200 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105 border-4 border-green-300">
+                                <div class="text-center mb-6">
+                                    <div class="bg-green-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-green-800 mb-2">Organic Waste</h3>
+                                    <p class="text-green-700 font-semibold text-lg">🟢 Green Bin</p>
+                                </div>
+                                <ul class="text-sm text-green-800 space-y-2 text-center">
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                                        <span>Food scraps & peels</span>
+                                    </li>
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                                        <span>Coffee grounds & tea leaves</span>
+                                    </li>
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-green-600 rounded-full"></span>
+                                        <span>Garden waste</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Recyclables -->
+                        <div class="group">
+                            <div class="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105 border-4 border-blue-300">
+                                <div class="text-center mb-6">
+                                    <div class="bg-blue-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-blue-800 mb-2">Recyclables</h3>
+                                    <p class="text-blue-700 font-semibold text-lg">🔵 Blue Bin</p>
+                                </div>
+                                <ul class="text-sm text-blue-800 space-y-2 text-center">
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
+                                        <span>Clean plastic bottles</span>
+                                    </li>
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
+                                        <span>Paper & cardboard</span>
+                                    </li>
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
+                                        <span>Glass & metal cans</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Hazardous Waste -->
+                        <div class="group">
+                            <div class="bg-gradient-to-br from-red-100 to-red-200 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105 border-4 border-red-300">
+                                <div class="text-center mb-6">
+                                    <div class="bg-red-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2L1 21h22L12 2zm0 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0-4a1 1 0 0 1 0-2 1 1 0 0 1 0 2z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-red-800 mb-2">Hazardous</h3>
+                                    <p class="text-red-700 font-semibold text-lg">🔴 Special Collection</p>
+                                </div>
+                                <ul class="text-sm text-red-800 space-y-2 text-center">
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-red-600 rounded-full"></span>
+                                        <span>Batteries & electronics</span>
+                                    </li>
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-red-600 rounded-full"></span>
+                                        <span>Chemicals & medicines</span>
+                                    </li>
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-red-600 rounded-full"></span>
+                                        <span>Paints & light bulbs</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- General Waste -->
+                        <div class="group">
+                            <div class="bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105 border-4 border-gray-300">
+                                <div class="text-center mb-6">
+                                    <div class="bg-gray-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.25h-15A2.5 2.5 0 0 1 2 16.75V5.25A2.5 2.5 0 0 1 4.5 2.75h15A2.5 2.5 0 0 1 22 5.25v11.5a2.5 2.5 0 0 1-2.5 2.5z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800 mb-2">General Waste</h3>
+                                    <p class="text-gray-700 font-semibold text-lg">⚫ Black Bin</p>
+                                </div>
+                                <ul class="text-sm text-gray-800 space-y-2 text-center">
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-gray-600 rounded-full"></span>
+                                        <span>Used tissues & diapers</span>
+                                    </li>
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-gray-600 rounded-full"></span>
+                                        <span>Styrofoam packaging</span>
+                                    </li>
+                                    <li class="flex items-center justify-center space-x-2">
+                                        <span class="w-2 h-2 bg-gray-600 rounded-full"></span>
+                                        <span>Contaminated items</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-12">
+                        <button onclick="showPage('waste-types')" class="bg-green-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105">
+                            Learn More About Waste Types
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="py-20 bg-gradient-to-r from-green-600 to-green-700">
+                <div class="container mx-auto px-6 text-center">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Ready to Make a Difference?</h2>
+                        <p class="text-xl text-green-100 mb-8 leading-relaxed">Join thousands of households already transforming their environmental impact. Start your waste segregation journey today!</p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            
+                            <button onclick="showPage('tips')" class="bg-white text-green-700 font-bold py-4 px-8 rounded-full shadow-lg hover:bg-green-50 transition-all duration-300 transform hover:scale-105">
+                                Get Started Guide
+                            </button>
+                            <button onclick="showPage('contact')" class="border-2 border-white text-white font-bold py-4 px-8 rounded-full hover:bg-white hover:text-green-700 transition-all duration-300">
+                                Contact Support
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Waste Types Section (includes Lookup Tool) -->
+        <div id="waste-types" class="page-content">
+            <!-- Hero Section -->
+            <section class="relative bg-gradient-to-br from-green-600 to-green-800 text-white py-20">
+                <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                <div class="relative z-10 container mx-auto px-6 text-center">
+                    <div class="flex justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.25h-15A2.5 2.5 0 0 1 2 16.75V5.25A2.5 2.5 0 0 1 4.5 2.75h15A2.5 2.5 0 0 1 22 5.25v11.5a2.5 2.5 0 0 1-2.5 2.5z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-5xl font-bold mb-4">Waste Types & Classification</h1>
+                    <p class="text-xl text-green-100 max-w-3xl mx-auto">Master the art of waste identification and proper sorting with our comprehensive guide and intelligent lookup system.</p>
+                </div>
+            </section>
+
+            <!-- Waste Item Lookup Tool -->
+            <section class="py-16 bg-gray-50">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Intelligent Waste Lookup</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Not sure where an item belongs? Our smart lookup tool provides instant classification and disposal guidance.
+                        </p>
+                    </div>
+                    
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                            <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+                                <div class="relative flex-1 w-full">
+                                    <input type="text" id="waste-input" placeholder="Type any item: plastic bottle, banana peel, old phone..." class="w-full px-6 py-4 border-2 border-green-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 text-lg">
+                                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <button onclick="lookupWaste()" class="bg-green-500 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105 min-w-[140px]">
+                                    Identify Item
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="lookup-results" class="hidden">
+                            <!-- Results will be displayed here -->
+                        </div>
+
+                        <!-- Quick Examples -->
+                        <div class="text-center">
+                            <p class="text-gray-600 mb-4">Try these examples:</p>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                <button onclick="document.getElementById('waste-input').value='plastic bottle'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Plastic Bottle</button>
+                                <button onclick="document.getElementById('waste-input').value='banana peel'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Banana Peel</button>
+                                <button onclick="document.getElementById('waste-input').value='old phone'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Old Phone</button>
+                                <button onclick="document.getElementById('waste-input').value='used batteries'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Used Batteries</button>
+                                <button onclick="document.getElementById('waste-input').value='paper'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Paper</button>
+                                <button onclick="document.getElementById('waste-input').value='glass bottle'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Glass Bottle</button>
+                                <button onclick="document.getElementById('waste-input').value='food leftovers'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Food Leftovers</button>
+                                <button onclick="document.getElementById('waste-input').value='sanitary napkins'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Sanitary Napkins</button>
+                                <button onclick="document.getElementById('waste-input').value='cardboard box'; lookupWaste();" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors text-sm">Cardboard Box</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Waste Categories -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Primary Waste Categories</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Understanding the four main categories of household waste is essential for effective segregation and environmental protection.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+                        <!-- Organic Waste -->
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 border-2 border-green-200 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-6">
+                                <div class="bg-green-500 rounded-full p-4 mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-green-800">Organic Waste</h3>
+                                    <p class="text-green-700 font-semibold">🟢 Green Bin | Wet Waste</p>
+                                </div>
+                            </div>
+                            
+                            <p class="text-green-800 mb-6">Biodegradable materials that can be composted to create nutrient-rich soil amendments and reduce methane emissions from landfills.</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <h4 class="font-semibold text-green-800 mb-2">✅ What Goes In</h4>
+                                    <ul class="text-sm text-green-700 space-y-1">
+                                        <li>• Fruit and vegetable peels</li>
+                                        <li>• Food scraps and leftovers</li>
+                                        <li>• Coffee grounds & tea bags</li>
+                                        <li>• Eggshells and nutshells</li>
+                                        <li>• Garden trimmings</li>
+                                        <li>• Paper napkins (unbleached)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-red-800 mb-2">❌ Keep Out</h4>
+                                    <ul class="text-sm text-red-700 space-y-1">
+                                        <li>• Meat and fish bones</li>
+                                        <li>• Dairy products</li>
+                                        <li>• Cooked oils and fats</li>
+                                        <li>• Pet waste</li>
+                                        <li>• Diseased plants</li>
+                                        <li>• Synthetic materials</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-green-200 rounded-lg p-4">
+                                <p class="text-sm text-green-800"><strong>💡 Pro Tip:</strong> Start a home compost bin to turn organic waste into valuable fertilizer for your garden!</p>
+                            </div>
+                        </div>
+
+                        <!-- Recyclable Waste -->
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-2 border-blue-200 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-6">
+                                <div class="bg-blue-500 rounded-full p-4 mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-blue-800">Recyclable Waste</h3>
+                                    <p class="text-blue-700 font-semibold">🔵 Blue Bin | Dry Waste</p>
+                                </div>
+                            </div>
+                            
+                            <p class="text-blue-800 mb-6">Clean, dry materials that can be processed into new products, conserving natural resources and reducing manufacturing energy consumption.</p>
+                            
+                            <div class="space-y-4 mb-6">
+                                <div>
+                                    <h4 class="font-semibold text-blue-800 mb-2">📄 Paper & Cardboard</h4>
+                                    <p class="text-sm text-blue-700">Newspapers, magazines, office paper, cardboard boxes, paper bags</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-blue-800 mb-2">🍶 Glass</h4>
+                                    <p class="text-sm text-blue-700">Bottles, jars (remove caps and lids, rinse clean)</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-blue-800 mb-2">🥤 Plastics</h4>
+                                    <p class="text-sm text-blue-700">Bottles with recycling symbols #1-7, containers, clean packaging</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-blue-800 mb-2">🥫 Metals</h4>
+                                    <p class="text-sm text-blue-700">Aluminum cans, steel cans, clean foil, metal containers</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-blue-200 rounded-lg p-4">
+                                <p class="text-sm text-blue-800"><strong>💡 Pro Tip:</strong> Always rinse containers and remove caps before recycling to prevent contamination!</p>
+                            </div>
+                        </div>
+
+                        <!-- Non-Recyclable Waste -->
+                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 border-2 border-gray-200 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-6">
+                                <div class="bg-gray-500 rounded-full p-4 mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-800">Non-Recyclable Waste</h3>
+                                    <p class="text-gray-700 font-semibold">⚫ Black Bin | General Waste</p>
+                                </div>
+                            </div>
+                            
+                            <p class="text-gray-800 mb-6">Materials that cannot be recycled through conventional methods and require proper disposal to minimize environmental impact.</p>
+                            
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">🧻 Sanitary Items</h4>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Used tissues and napkins</li>
+                                        <li>• Sanitary pads and tampons</li>
+                                        <li>• Diapers</li>
+                                        <li>• Cotton swabs and pads</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-2">📦 Contaminated Materials</h4>
+                                    <ul class="text-sm text-gray-700 space-y-1">
+                                        <li>• Greasy pizza boxes</li>
+                                        <li>• Food-contaminated paper</li>
+                                        <li>• Broken ceramics and mirrors</li>
+                                        <li>• Styrofoam packaging</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-200 rounded-lg p-4">
+                                <p class="text-sm text-gray-800"><strong>💡 Pro Tip:</strong> Minimize this category by choosing reusable and recyclable alternatives whenever possible!</p>
+                            </div>
+                        </div>
+
+                        <!-- Hazardous Waste -->
+                        <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 border-2 border-red-200 hover:shadow-xl transition-all duration-300">
+                            <div class="flex items-center mb-6">
+                                <div class="bg-red-500 rounded-full p-4 mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-red-800">Hazardous Waste</h3>
+                                    <p class="text-red-700 font-semibold">🔴 Special Collection Required</p>
+                                </div>
+                            </div>
+                            
+                            <p class="text-red-800 mb-6">Materials containing toxic, flammable, or corrosive substances that require specialized handling and disposal to protect human health and the environment.</p>
+                            
+                            <div class="space-y-4 mb-6">
+                                <div>
+                                    <h4 class="font-semibold text-red-800 mb-2">🔋 Electronics & Batteries</h4>
+                                    <p class="text-sm text-red-700">Smartphones, laptops, batteries, chargers, small appliances</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-red-800 mb-2">🧪 Chemicals & Paints</h4>
+                                    <p class="text-sm text-red-700">Cleaning products, pesticides, paint, solvents, automotive fluids</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-red-800 mb-2">💊 Medical Waste</h4>
+                                    <p class="text-sm text-red-700">Expired medications, thermometers, medical devices</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-red-800 mb-2">💡 Special Items</h4>
+                                    <p class="text-sm text-red-700">CFL bulbs, fluorescent tubes, aerosol cans</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-red-200 rounded-lg p-4">
+                                <p class="text-sm text-red-800"><strong>⚠️ Important:</strong> Never mix hazardous waste with regular trash. Take to designated collection centers!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Reference Guide -->
+            <section class="py-16 bg-gray-50">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Quick Reference Guide</h2>
+                        <p class="text-xl text-gray-600">Common household items and their proper disposal categories</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+                        <!-- Kitchen Items -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                                <span class="mr-2">🍽️</span> Kitchen Items
+                            </h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span>Banana peel</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Organic</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Glass jar</span>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Recyclable</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Aluminum foil</span>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Recyclable</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Used napkin</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">General</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Office Items -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                                <span class="mr-2">🖥️</span> Office Items
+                            </h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span>Office paper</span>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Recyclable</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Old laptop</span>
+                                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Hazardous</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Ink cartridge</span>
+                                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Hazardous</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Cardboard box</span>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Recyclable</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bathroom Items -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                                <span class="mr-2">🛁</span> Bathroom Items
+                            </h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span>Shampoo bottle</span>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Recyclable</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Used tissues</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">General</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Expired medicine</span>
+                                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Hazardous</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Razor blade</span>
+                                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Hazardous</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Garden Items -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                                <span class="mr-2">🌱</span> Garden Items
+                            </h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span>Grass clippings</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Organic</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Fertilizer bag</span>
+                                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Hazardous</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Terra cotta pot</span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">General</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>Plant trimmings</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Organic</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Best Practices -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Best Practices for Waste Sorting</h2>
+                        <p class="text-xl text-gray-600">Essential tips for effective waste segregation at home</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <div class="text-center">
+                            <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Clean Before Sorting</h3>
+                            <p class="text-gray-600">Rinse containers and remove food residue to prevent contamination and ensure proper recycling.</p>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Use Clear Labels</h3>
+                            <p class="text-gray-600">Label your bins clearly with both text and color coding to help all family members sort correctly.</p>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="bg-purple-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-purple-600" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Check Local Guidelines</h3>
+                            <p class="text-gray-600">Recycling rules vary by location. Always verify what your local waste management system accepts.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tips Section -->
+        <div id="tips" class="page-content">
+            <div class="container mx-auto p-6">
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Prepare Separate Bins</h2>
+                    <p class="text-gray-700 mb-6">Label bins clearly to avoid confusion. Use color-coded bins for easy identification.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="text-center">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/50d29c67-afe4-42b6-b29b-282063fafe13.png" alt="Green plastic waste bin in a modern kitchen setting, labeled for organic waste, with vegetable scraps nearby, realistic and clean style" class="w-full h-64 object-cover mb-2" />
+                            <h3 class="text-lg font-semibold">Green Bin: Organic Waste</h3>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2e6bdec2-08f7-410b-aff5-7d9c05878f4c.png" alt="Blue plastic waste bin in a home environment, labeled for recyclables like paper and bottles, with a clean, organized composition" class="w-full h-64 object-cover mb-2" />
+                            <h3 class="text-lg font-semibold">Blue Bin: Recyclables</h3>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/902f9d7a-28f2-4d08-9177-db753f3ac551.png" alt="Red plastic waste bin in a residential space, labeled for non-recyclables, with plastic wrappers in view, modern and functional" class="w-full h-64 object-cover mb-2" />
+                            <h3 class="text-lg font-semibold">Red Bin: Non-Recyclables</h3>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/faad14a3-28fe-475a-b953-b4e572a38bcb.png" alt="Yellow plastic waste bin in a house, labeled for hazardous waste like batteries, with a cautionary and clean aesthetic" class="w-full h-64 object-cover mb-2" />
+                            <h3 class="text-lg font-semibold">Yellow Bin: Hazardous Waste</h3>
+                        </div>
+                    </div>
+                </section>
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Educate Family Members</h2>
+                    <p class="text-gray-700 mb-6">Place a segregation chart near the bins to remind everyone what goes where. This fosters habit formation and teamwork.</p>
+                    <div class="text-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5af5d9ed-808e-4b4f-b793-2c9ba1eb2d25.png" alt="Family group in a bright kitchen, looking at a wall chart with waste segregation examples, smiling and engaged, warm and encouraging mood" class="w-full h-80 object-cover mb-4" />
+                    </div>
+                </section>
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Compost Organic Waste</h2>
+                    <p class="text-gray-700 mb-6">Set up a compost bin to turn organic waste into nutrient-rich compost for your garden, reducing methane emissions from landfills.</p>
+                    <div class="text-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5a3c0cdf-2c02-4d79-893c-1436fd89febf.png" alt="Wooden compost bin in a backyard garden, filled with vegetable scraps and soil, surrounded by green plants, eco-friendly and natural" class="w-full h-48 object-cover mb-4" />
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Regulations Section -->
+        <div id="regulations" class="page-content">
+            <!-- Hero Section -->
+            <section class="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
+                <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                <div class="relative z-10 container mx-auto px-6 text-center">
+                    <div class="flex justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zM10 17l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-5xl font-bold mb-4">Waste Management Regulations & Compliance</h1>
+                    <p class="text-xl text-blue-100 max-w-3xl mx-auto">Understanding the legal framework, responsibilities, and best practices for proper waste management and environmental protection.</p>
+                </div>
+            </section>
+
+            <!-- Main Content -->
+            <div class="py-16 bg-gray-50">
+                <div class="container mx-auto px-6">
+                    <!-- Key Regulations Overview -->
+                    <section class="mb-16">
+                        <div class="text-center mb-12">
+                            <h2 class="text-4xl font-bold text-gray-800 mb-4">Legal Framework</h2>
+                            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive overview of federal and local regulations governing waste management practices.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                            <!-- Federal Regulations -->
+                            <div class="bg-white rounded-2xl shadow-lg p-8 border-l-4 border-blue-500">
+                                <div class="flex items-center mb-6">
+                                    <div class="bg-blue-100 rounded-full p-3 mr-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800">Federal Regulations</h3>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="border-l-3 border-blue-200 pl-4">
+                                        <h4 class="text-lg font-semibold text-blue-700 mb-2">Solid Waste Management Rules 2016</h4>
+                                        <p class="text-gray-600 text-sm">Mandates segregation at source for all waste generators, including households and commercial establishments.</p>
+                                    </div>
+                                    <div class="border-l-3 border-blue-200 pl-4">
+                                        <h4 class="text-lg font-semibold text-blue-700 mb-2">E-Waste Management Rules 2022</h4>
+                                        <p class="text-gray-600 text-sm">Extended producer responsibility for electronic products and proper disposal guidelines.</p>
+                                    </div>
+                                    <div class="border-l-3 border-blue-200 pl-4">
+                                        <h4 class="text-lg font-semibold text-blue-700 mb-2">Hazardous Waste Management Rules 2016</h4>
+                                        <p class="text-gray-600 text-sm">Regulations for handling, storage, and disposal of hazardous materials from households.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- State & Local Regulations -->
+                            <div class="bg-white rounded-2xl shadow-lg p-8 border-l-4 border-green-500">
+                                <div class="flex items-center mb-6">
+                                    <div class="bg-green-100 rounded-full p-3 mr-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800">State & Local Rules</h3>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="border-l-3 border-green-200 pl-4">
+                                        <h4 class="text-lg font-semibold text-green-700 mb-2">Municipal Bylaws</h4>
+                                        <p class="text-gray-600 text-sm">Local ordinances for waste collection schedules, bin requirements, and penalty structures.</p>
+                                    </div>
+                                    <div class="border-l-3 border-green-200 pl-4">
+                                        <h4 class="text-lg font-semibold text-green-700 mb-2">State Environmental Policies</h4>
+                                        <p class="text-gray-600 text-sm">State-specific guidelines for recycling targets, composting programs, and waste reduction goals.</p>
+                                    </div>
+                                    <div class="border-l-3 border-green-200 pl-4">
+                                        <h4 class="text-lg font-semibold text-green-700 mb-2">Housing Society Rules</h4>
+                                        <p class="text-gray-600 text-sm">Apartment complex and residential community waste management protocols.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Compliance Requirements -->
+                    <section class="mb-16">
+                        <div class="text-center mb-12">
+                            <h2 class="text-4xl font-bold text-gray-800 mb-4">Compliance Requirements</h2>
+                            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Essential obligations for households and individuals under waste management regulations.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+                            <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+                                <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Source Segregation</h3>
+                                <p class="text-sm text-gray-600">Mandatory separation of waste into designated categories before collection.</p>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+                                <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Authorized Collectors</h3>
+                                <p class="text-sm text-gray-600">Use only licensed waste collection agencies approved by local authorities.</p>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+                                <div class="bg-yellow-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Record Keeping</h3>
+                                <p class="text-sm text-gray-600">Maintain documentation of waste generation and disposal methods.</p>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+                                <div class="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">Penalty Compliance</h3>
+                                <p class="text-sm text-gray-600">Adherence to local penalty structures for non-compliance violations.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Detailed Rules & Guidelines -->
+                    <section class="mb-16">
+                        <div class="text-center mb-12">
+                            <h2 class="text-4xl font-bold text-gray-800 mb-4">Detailed Rules & Guidelines</h2>
+                            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive breakdown of specific requirements and best practices.</p>
+                        </div>
+
+                        <div class="space-y-8 max-w-6xl mx-auto">
+                            <!-- Segregation Rules -->
+                            <div class="bg-white rounded-2xl shadow-lg p-8">
+                                <div class="flex items-center mb-6">
+                                    <div class="bg-green-500 rounded-full p-3 mr-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M19 9h-4V3H9v6H5l7 7 7-7z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800">Waste Segregation Rules</h3>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-3">Mandatory Requirements</h4>
+                                        <ul class="space-y-2 text-sm text-gray-600">
+                                            <li class="flex items-start space-x-2">
+                                                <span class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                                                <span>Separate wet waste (organic) from dry waste (recyclables)</span>
+                                            </li>
+                                            <li class="flex items-start space-x-2">
+                                                <span class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                                                <span>Store hazardous waste separately in designated containers</span>
+                                            </li>
+                                            <li class="flex items-start space-x-2">
+                                                <span class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                                                <span>Use appropriate colored bins as per local guidelines</span>
+                                            </li>
+                                            <li class="flex items-start space-x-2">
+                                                <span class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                                                <span>Clean recyclables before disposal to prevent contamination</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-3">Best Practices</h4>
+                                        <ul class="space-y-2 text-sm text-gray-600">
+                                            <li class="flex items-start space-x-2">
+                                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                                                <span>Compost organic waste at home when possible</span>
+                                            </li>
+                                            <li class="flex items-start space-x-2">
+                                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                                                <span>Label bins clearly for family members and domestic help</span>
+                                            </li>
+                                            <li class="flex items-start space-x-2">
+                                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                                                <span>Regular cleaning and maintenance of waste storage areas</span>
+                                            </li>
+                                            <li class="flex items-start space-x-2">
+                                                <span class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                                                <span>Participate in community awareness programs</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Collection & Disposal Rules -->
+                            <div class="bg-white rounded-2xl shadow-lg p-8">
+                                <div class="flex items-center mb-6">
+                                    <div class="bg-blue-500 rounded-full p-3 mr-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M4 6H2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6h-2V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4zm4-2v2h8V4H8z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800">Collection & Disposal Rules</h3>
+                                </div>
+                                <div class="grid md:grid-cols-3 gap-6">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-3">Timing Requirements</h4>
+                                        <ul class="space-y-2 text-sm text-gray-600">
+                                            <li>• Present waste at designated collection times only</li>
+                                            <li>• Follow municipal collection schedules</li>
+                                            <li>• Avoid overnight disposal in public areas</li>
+                                            <li>• Coordinate with authorized collection agencies</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-3">Location Guidelines</h4>
+                                        <ul class="space-y-2 text-sm text-gray-600">
+                                            <li>• Use designated collection points only</li>
+                                            <li>• Maintain cleanliness around collection areas</li>
+                                            <li>• Avoid dumping in unauthorized locations</li>
+                                            <li>• Respect private and public property boundaries</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-3">Special Waste</h4>
+                                        <ul class="space-y-2 text-sm text-gray-600">
+                                            <li>• E-waste to certified recyclers only</li>
+                                            <li>• Hazardous waste to special collection centers</li>
+                                            <li>• Medical waste through approved channels</li>
+                                            <li>• Construction debris to authorized facilities</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Penalties & Enforcement -->
+                            <div class="bg-white rounded-2xl shadow-lg p-8 border-l-4 border-red-500">
+                                <div class="flex items-center mb-6">
+                                    <div class="bg-red-500 rounded-full p-3 mr-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold text-gray-800">Penalties & Enforcement</h3>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-red-700 mb-3">Common Violations</h4>
+                                        <ul class="space-y-2 text-sm text-gray-600">
+                                            <li>• Failure to segregate waste at source</li>
+                                            <li>• Improper disposal of hazardous materials</li>
+                                            <li>• Dumping waste in unauthorized areas</li>
+                                            <li>• Non-compliance with collection schedules</li>
+                                            <li>• Mixing different types of waste</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-red-700 mb-3">Penalty Structure</h4>
+                                        <ul class="space-y-2 text-sm text-gray-600">
+                                            <li>• First offense: Warning and education</li>
+                                            <li>• Repeated violations: Fines ranging ₹500-₹5,000</li>
+                                            <li>• Commercial violations: Higher penalty brackets</li>
+                                            <li>• Community service as alternative penalty</li>
+                                            <li>• Legal action for severe environmental damage</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Important Notice -->
+                    <section class="max-w-4xl mx-auto">
+                        <div class="bg-gradient-to-r from-orange-100 to-orange-50 border-l-4 border-orange-500 rounded-xl p-8 shadow-lg">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-600" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2L1 21h22L12 2zm0 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm0-4a1 1 0 0 1 0-2 1 1 0 0 1 0 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold text-orange-800 mb-3">Important Legal Notice</h4>
+                                    <p class="text-gray-700 mb-4">
+                                        Waste management regulations may vary significantly by state, city, and local jurisdiction. The information provided here serves as general guidance and may not reflect the specific requirements in your area.
+                                    </p>
+                                    <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
+                                        <div>
+                                            <p class="font-semibold text-orange-700 mb-2">Always Consult:</p>
+                                            <ul class="space-y-1">
+                                                <li>• Local municipal corporation</li>
+                                                <li>• Waste management department</li>
+                                                <li>• Residential society guidelines</li>
+                                                <li>• State pollution control board</li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-orange-700 mb-2">Stay Updated On:</p>
+                                            <ul class="space-y-1">
+                                                <li>• Changes in local bylaws</li>
+                                                <li>• New collection schedules</li>
+                                                <li>• Updated penalty structures</li>
+                                                <li>• Special waste programs</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcycling Section -->
+        <div id="upcycling" class="page-content">
+            <!-- Hero Section -->
+            <section class="relative bg-gradient-to-br from-purple-600 to-indigo-800 text-white py-20">
+                <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                <div class="relative z-10 container mx-auto px-6 text-center">
+                    <div class="flex justify-center mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 4V2C7 1.45 7.45 1 8 1h8c.55 0 1 .45 1 1v2h5v2h-2v12c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6H2V4h5zm2-1v1h6V3H9zm-1 5v8h8V8H8z"/>
+                        </svg>
+                    </div>
+                    <h1 class="text-5xl font-bold mb-4">Creative Upcycling Projects</h1>
+                    <p class="text-xl text-purple-100 max-w-3xl mx-auto">Transform everyday waste into beautiful, functional pieces. Give new life to items before they become environmental burden.</p>
+                </div>
+            </section>
+
+            <!-- Impact Statistics -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Environmental Impact Through Upcycling</h2>
+                        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Every item you upcycle makes a measurable difference to our planet</p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                        <div class="text-center">
+                            <div class="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold text-green-700">75+</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Project Ideas</h3>
+                            <p class="text-sm text-gray-600">Creative ways to repurpose waste</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-blue-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold text-blue-700">90%</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Waste Reduction</h3>
+                            <p class="text-sm text-gray-600">Less items sent to landfills</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-purple-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold text-purple-700">$350</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Annual Savings</h3>
+                            <p class="text-sm text-gray-600">Money saved per household</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-orange-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold text-orange-700">50kg</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">CO2 Reduction</h3>
+                            <p class="text-sm text-gray-600">Per household annually</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filter Section -->
+            <section class="py-8 bg-gray-50">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Browse by Category</h2>
+                        <p class="text-lg text-gray-600 mb-6">Find the perfect project for your needs and skill level</p>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button onclick="filterUpcyclingProjects('All')" class="upcycling-filter-btn px-6 py-3 rounded-full text-white bg-purple-500 hover:bg-purple-600 transition-all duration-300 transform hover:scale-105 shadow-lg">All Projects</button>
+                            <button onclick="filterUpcyclingProjects('Garden')" class="upcycling-filter-btn px-6 py-3 rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg border">🌱 Garden</button>
+                            <button onclick="filterUpcyclingProjects('Storage')" class="upcycling-filter-btn px-6 py-3 rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg border">📦 Storage</button>
+                            <button onclick="filterUpcyclingProjects('Decor')" class="upcycling-filter-btn px-6 py-3 rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg border">✨ Decor</button>
+                            <button onclick="filterUpcyclingProjects('Fashion')" class="upcycling-filter-btn px-6 py-3 rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg border">👗 Fashion</button>
+                            <button onclick="filterUpcyclingProjects('Office')" class="upcycling-filter-btn px-6 py-3 rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg border">🖥️ Office</button>
+                            <button onclick="filterUpcyclingProjects('Kids')" class="upcycling-filter-btn px-6 py-3 rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg border">🧸 Kids</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Grid -->
+            <section class="py-16 bg-white">
+                <div class="container mx-auto px-6">
+                    <div id="upcycling-projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                        <!-- Project 1: Plastic Bottle Vertical Garden -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Garden">
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="Plastic Bottle Vertical Garden" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Bottle Garden Wall</h3>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Easy</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Create a living wall using plastic bottles as planters for herbs and small plants.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 45 min</span>
+                                    <span class="mr-4">💰 500</span>
+                                    <span>🌱 Garden</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Plastic bottles</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Scissors</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Rope</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Soil</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 2: Cardboard Storage System -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Storage">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="Cardboard Storage System" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Design Store Box</h3>
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">Medium</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Transform shipping boxes into elegant storage solutions with fabric wrapping.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 2 hours</span>
+                                    <span class="mr-4">💰 700</span>
+                                    <span>📦 Storage</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Cardboard boxes</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Fabric</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Fabric glue</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Labels</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Labels</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 3: Glass Jar Luminaries -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Decor">
+                            <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="Glass Jar Luminaries" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Magical Jar Lights</h3>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Easy</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Create enchanting ambient lighting using mason jars and LED strings.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 30 min</span>
+                                    <span class="mr-4">💰 900</span>
+                                    <span>✨ Decor</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs">Mason jars</span>
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs">LED lights</span>
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs">Wire</span>
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs">Decorative stones</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 4: T-shirt Tote Bags -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Fashion">
+                            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="T-shirt Tote Bags" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">No-Sew Tote Bags</h3>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Easy</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Turn old t-shirts into stylish reusable shopping bags without any sewing.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 15 min</span>
+                                    <span class="mr-4">💰 Free</span>
+                                    <span>👗 Fashion</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-pink-50 text-pink-700 rounded text-xs">Old t-shirts</span>
+                                        <span class="px-2 py-1 bg-pink-50 text-pink-700 rounded text-xs">Scissors</span>
+                                        <span class="px-2 py-1 bg-pink-50 text-pink-700 rounded text-xs">Ruler</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 5: Tin Can Desk Organizers -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Office">
+                            <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="Tin Can Desk Organizers" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Stylish Desk Organizers</h3>
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">Medium</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Transform tin cans into modern desk organizers for your workspace.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 1 hour</span>
+                                    <span class="mr-4">💰 600</span>
+                                    <span>🖥️ Office</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-gray-50 text-gray-700 rounded text-xs">Tin cans</span>
+                                        <span class="px-2 py-1 bg-gray-50 text-gray-700 rounded text-xs">Spray paint</span>
+                                        <span class="px-2 py-1 bg-gray-50 text-gray-700 rounded text-xs">Sandpaper</span>
+                                        <span class="px-2 py-1 bg-gray-50 text-gray-700 rounded text-xs">Labels</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 6: Wine Cork Board -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Decor">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="Wine Cork Board" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Cork Memory Board</h3>
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">Medium</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Create a unique bulletin board using collected wine corks.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 90 min</span>
+                                    <span class="mr-4">💰 1000</span>
+                                    <span>✨ Decor</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs">Wine corks</span>
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs">Picture frame</span>
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs">Hot glue</span>
+                                        <span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs">Push pins</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 7: Egg Carton Seed Starters -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Garden">
+                            <img src="https://m.media-amazon.com/images/I/710RoziffcL._UF1000%2C1000_QL80_.jpg" alt="Egg Carton Seed Starters" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Biodegradable Seed Starters</h3>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Easy</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Use egg cartons as eco-friendly seed starting trays for your garden.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 20 min</span>
+                                    <span class="mr-4">💰 300</span>
+                                    <span>🌱 Garden</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Egg cartons</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Seeds</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Potting soil</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Water</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 8: Cereal Box Magazine Holders -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Storage">
+                            <img src= " https://harrisandjones.co.uk/cdn/shop/files/CUSTOM_PAPER_Magazine_file_b3461a2d-31d2-4df0-b31d-f1a44488ebf3.jpg?v=1726665806&width=1080 " alt="Magazine Holders" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Custom Magazine Holders</h3>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Easy</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Convert cereal boxes into organized magazine and document holders.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 30 min</span>
+                                    <span class="mr-4">💰 100</span>
+                                    <span>📦 Storage</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Cereal boxes</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Decorative paper</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Scissors</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Glue</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 9: CD/DVD Bird Deterrent -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Garden">
+                            <img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="CD Bird Deterrent" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Rainbow Garden Spinners</h3>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Easy</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Turn old CDs into beautiful garden decorations that deter birds naturally.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 25 min</span>
+                                    <span class="mr-4">💰 400</span>
+                                    <span>🌱 Garden</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Old CDs/DVDs</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">String/wire</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Beads</span>
+                                        <span class="px-2 py-1 bg-green-50 text-green-700 rounded text-xs">Garden stakes</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 10: Paper Tube Organizers -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Office">
+                            <img src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="Paper Tube Organizers" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Cord & Cable Organizers</h3>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Easy</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Use toilet paper rolls to organize cables and cords in your workspace.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 15 min</span>
+                                    <span class="mr-4">💰 Free</span>
+                                    <span>🖥️ Office</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-gray-50 text-gray-700 rounded text-xs">Paper tubes</span>
+                                        <span class="px-2 py-1 bg-gray-50 text-gray-700 rounded text-xs">Box/drawer</span>
+                                        <span class="px-2 py-1 bg-gray-50 text-gray-700 rounded text-xs">Labels</span>
+                                        <span class="px-2 py-1 bg-gray-50 text-gray-700 rounded text-xs">Markers</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 11: Sock Puppets -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Kids">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="Sock Puppets" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Creative Sock Puppets</h3>
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Easy</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Transform old socks into fun puppet characters for imaginative play.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 30 min</span>
+                                    <span class="mr-4">💰 300</span>
+                                    <span>🧸 Kids</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs">Old socks</span>
+                                        <span class="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs">Buttons</span>
+                                        <span class="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs">Felt</span>
+                                        <span class="px-2 py-1 bg-orange-50 text-orange-700 rounded text-xs">Glue</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+
+                        <!-- Project 12: Denim Pocket Organizer -->
+                        <div class="upcycling-project bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden" data-category="Storage">
+                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&w=400&h=250&fit=crop" alt="Denim Pocket Organizer" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="text-xl font-bold text-gray-800">Hanging Pocket Organizer</h3>
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">Medium</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Repurpose old jeans pockets into a versatile hanging organizer.</p>
+                                <div class="flex items-center text-sm text-gray-500 mb-4">
+                                    <span class="mr-4">⏱️ 1.5 hours</span>
+                                    <span class="mr-4">💰 500</span>
+                                    <span>📦 Storage</span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-800 mb-2">Materials:</h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Old jeans</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Canvas backing</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Sewing kit</span>
+                                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">Hanger</span>
+                                    </div>
+                                </div>
+                                <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300">View Tutorial</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tips Section -->
+            <section class="py-16 bg-gray-50">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Upcycling Success Tips</h2>
+                        <p class="text-lg text-gray-600">Master the art of upcycling with these expert recommendations</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                            <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Start Small</h3>
+                            <p class="text-gray-600">Begin with easy 15-minute projects to build confidence and skills before tackling complex creations.</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                            <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Organize Materials</h3>
+                            <p class="text-gray-600">Keep a dedicated storage area for upcycling supplies and clean materials before starting projects.</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-6 shadow-lg text-center">
+                            <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Get Creative</h3>
+                            <p class="text-gray-600">Don't be afraid to experiment and add personal touches - the best projects reflect your unique style!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="py-16 bg-gradient-to-r from-purple-600 to-indigo-700">
+                <div class="container mx-auto px-6 text-center">
+                    <div class="max-w-3xl mx-auto">
+                        <h2 class="text-4xl font-bold text-white mb-4">Ready to Start Your Upcycling Journey?</h2>
+                        <p class="text-xl text-purple-100 mb-8">Join thousands of creative minds turning waste into wonderful creations. Every project makes a difference!</p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button onclick="showPage('waste-types')" class="bg-white text-purple-700 font-bold py-4 px-8 rounded-full shadow-lg hover:bg-purple-50 transition-all duration-300 transform hover:scale-105">
+                                Find Materials to Upcycle
+                            </button>
+                            <button onclick="showPage('contact')" class="border-2 border-white text-white font-bold py-4 px-8 rounded-full hover:bg-white hover:text-purple-700 transition-all duration-300">
+                                Share Your Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Section -->
+        <div id="contact" class="page-content">
+            <section class="container mx-auto p-6 text-center">
+                <h2 class="text-3xl font-bold text-green-600 mb-2">Get in Touch</h2>
+                <p class="text-lg text-gray-600 mb-8">Have questions about waste segregation? We're here to help!</p>
+                <div class="flex flex-col md:flex-row md:space-x-8 max-w-4xl mx-auto">
+                    <!-- Send a Message Section -->
+                    <div class="md:w-1/2 p-6 bg-white rounded-xl shadow-lg mb-6 md:mb-0">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Send Us a Message</h3>
+                        <form class="space-y-4">
+                            <input type="text" placeholder="Your full name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                            <input type="email" placeholder="your.email@example.com" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                            <div class="relative">
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 appearance-none">
+                                    <option value="" disabled selected>Select a subject</option>
+                                    <option value="General Inquiry">General Inquiry</option>
+                                    <option value="Service Question">Service Question</option>
+                                    <option value="Feedback">Feedback</option>
+                                    <option value="Report Issue">Report Issue</option>
+                                </select>
+                            </div>
+                            <textarea placeholder="Describe your question or inquiry..." rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"></textarea>
+                            <button type="submit" class="w-full bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-md hover:bg-green-600 transition-colors duration-300">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Contact Info & Resources -->
+                    <div class="md:w-1/2 p-6 bg-white rounded-xl shadow-lg space-y-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Contact Information</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2A7 7 0 0 0 5 9c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                                    </svg>
+                                    <p class="text-gray-600"> near Shivaji Road Amurat nagar ,RCT mall Ghatkopar Suburban mumbai 400084
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M6.62 10.79a15.655 15.655 0 0 0 6.59 6.59l2.21-2.21a.996.996 0 0 1 1.02-.24c1.12.35 2.33.53 3.59.53a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1c-9.67 0-17.5-7.83-17.5-17.5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.26.18 2.47.53 3.59a.996.996 0 0 1-.24 1.02l-2.21 2.21z"/>
+                                    </svg>
+                                    <p class="text-gray-600">+91 1234567890 <br>  +91 99204678896 </p>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                                    </svg>
+                                    <p class="text-gray-600">Shivam_shukla@gmail.com <br> </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Quick Resources</h3>
+                            <div class="space-y-3">
+                                <a href="https://cdem.somaiya.edu/media/pdf/waste%20segregation,Sorting%20&%20Collection%20,Mr.Tambe.pdf" class="flex items-center space-x-2 text-green-600 hover:text-green-800 transition-colors duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                                    </svg>
+                                    <span>Download Segregation Guide PDF</span>
+                                </a>
+                                <a href="https://spoken-tutorial.org/watch/Waste+Management/3-way+segregation+of+MSW+at+source/English/" class="flex items-center space-x-2 text-green-600 hover:text-green-800 transition-colors duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                                    </svg>
+                                    <span>Watch Tutorial Videos</span>
+                                </a>
+                                <a href="#" class="flex items-center space-x-2 text-green-600 hover:text-green-800 transition-colors duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M18 1.01L6 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM18 20H6V4h12v16zM7 9h10V7H7v2zm0 4h10v-2H7v2zm0 4h10v-2H7v2z"/>
+                                    </svg>
+                                    <span>Download Mobile App</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- FAQ Section -->
+        <div id="faq" class="page-content">
+            <section class="container mx-auto p-6 text-center">
+                <div class="flex justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white p-2 rounded-full" style="background-color: #8b5cf6;" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z"/>
+                    </svg>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+                <p class="text-lg text-gray-600 mb-8">Get answers to common questions about waste segregation, recycling, and sustainable practices.</p>
+
+                <div class="max-w-4xl mx-auto space-y-4">
+                    <div class="relative w-full mb-4">
+                        <input type="text" id="faq-search" oninput="filterFAQs()" placeholder="Search questions..." class="w-full px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+                    </div>
+
+                    <div id="faq-buttons" class="flex flex-wrap justify-center gap-2 mb-6">
+                        <button id="allQuestionsBtn" onclick="filterFAQs('All Questions')" class="px-4 py-2 rounded-full text-white bg-green-500 hover:bg-green-600 transition-colors duration-300">All Questions</button>
+                        <button onclick="filterFAQs('Getting Started')" class="px-4 py-2 rounded-full text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors duration-300">Getting Started</button>
+                        <button onclick="filterFAQs('Organic Waste')" class="px-4 py-2 rounded-full text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors duration-300">Organic Waste</button>
+                        <button onclick="filterFAQs('Recyclables')" class="px-4 py-2 rounded-full text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors duration-300">Recyclables</button>
+                        <button onclick="filterFAQs('Hazardous Waste')" class="px-4 py-2 rounded-full text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors duration-300">Hazardous Waste</button>
+                        <button onclick="filterFAQs('Troubleshooting')" class="px-4 py-2 rounded-full text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors duration-300">Troubleshooting</button>
+                        <button onclick="filterFAQs('Local Guidelines')" class="px-4 py-2 rounded-full text-gray-700 bg-gray-200 hover:bg-gray-300 transition-colors duration-300">Local Guidelines</button>
+                    </div>
+
+                    <div id="faq-list" class="space-y-4 text-left">
+                        <!-- FAQ items will be rendered here by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="max-w-xl mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Still Have Questions?</h3>
+                    <p class="text-gray-600 mb-6">Can't find what you're looking for? We're here to help!</p>
+                    <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+                        <button onclick="showPage('tips')" class="bg-green-500 text-white font-bold py-3 px-6 rounded-full shadow-md hover:bg-green-600 transition-colors duration-300">Browse All Guides</button>
+                        <button onclick="showPage('contact')" class="bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-full shadow-md hover:bg-gray-300 transition-colors duration-300">Contact Support</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Section -->
+        <div id="about" class="page-content">
+            <section class="container mx-auto p-6 text-center">
+                <h2 class="text-3xl font-bold text-green-600 mb-4">Mission</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+                    We're dedicated to creating a sustainable future through education, community engagement, and practical waste management solutions that make a real difference.
+                </p>
+
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12 max-w-4xl mx-auto">
+                    <div class="md:w-1/2 text-left p-6 bg-white rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Our Story</h3>
+                        <p class="text-gray-600 mb-4">
+                            Founded in 2020 by environmental scientist Dr. Sarah Johnson, our organization emerged from a simple observation: most households want to manage their waste responsibly but lack the knowledge and tools to do so effectively.
+                        </p>
+                        <p class="text-gray-600 mb-4">
+                            What started as weekend workshops in local community centers has grown into a nationwide movement, reaching over 100,000 households across 15 cities. Our approach combines scientific, expertise with practical, everyday solutions that families can implement immediately.
+                        </p>
+                        <button class="bg-green-500 text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-green-600 transition-colors duration-300">
+                            Learn About Our Programs
+                        </button>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Recycling bins in an office setting" class="rounded-xl shadow-2xl">
+                    </div>
+                </div>
+
+                <div class="mt-16">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-2">Our Values</h3>
+                    <p class="text-gray-600 mb-8">The principles that guide everything we do.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                        <div class="p-6 bg-white rounded-xl shadow-lg flex flex-col items-center text-center space-y-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16H9V9h2v9zm4 0h-2V9h2v9z"/>
+                            </svg>
+                            <h4 class="text-xl font-semibold text-gray-800">Mission-Driven</h4>
+                            <p class="text-sm text-gray-600">Every action we take is guided by our commitment to environmental sustainability and community education.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-xl shadow-lg flex flex-col items-center text-center space-y-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            <h4 class="text-xl font-semibold text-gray-800">Community-Centered</h4>
+                            <p class="text-sm text-gray-600">We believe in the power of collective action and work closely with local communities to create lasting change.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-xl shadow-lg flex flex-col items-center text-center space-y-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 21l-1-1.3c-4.5-4.5-7-8.8-7-12.5C4 3.7 7.1 1 12 1s8 2.7 8 6.2c0 3.7-2.5 8-7 12.5L12 21zm-2.2-7.5l-4.2-4.2c-.3-.3-.3-.8 0-1.1s.8-.3 1.1 0L12 11.8l2.9-2.9c.3-.3.8-.3 1.1 0s.3.8 0 1.1l-4.2 4.2c-.3.3-.8.3-1.1 0z"/>
+                            </svg>
+                            <h4 class="text-xl font-semibold text-gray-800">Excellence in Education</h4>
+                            <p class="text-sm text-gray-600">Our programs are research-backed and designed by experts to deliver maximum impact and understanding.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-2">Our Journey</h3>
+                    <p class="text-gray-600 mb-8">Key milestones in our mission to transform waste management</p>
+                    <div class="space-y-4 max-w-3xl mx-auto">
+                        <div class="p-4 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+                            <span class="text-2xl font-bold text-green-600">2020</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-gray-800">Founded with a mission to educate communities</p>
+                                <p class="text-sm text-gray-600">Started with 50 households</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+                            <span class="text-2xl font-bold text-green-600">2021</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-gray-800">Launched first educational workshop series</p>
+                                <p class="text-sm text-gray-600">Trained 500+ families</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+                            <span class="text-2xl font-bold text-green-600">2022</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-gray-800">Introduced digital resources and mobile app</p>
+                                <p class="text-sm text-gray-600">10,000+ app downloads</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+                            <span class="text-2xl font-bold text-green-600">2023</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-gray-800">Expanded to 15 cities nationwide</p>
+                                <p class="text-sm text-gray-600">50,000+ households impacted</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-xl shadow-lg flex items-center space-x-4">
+                            <span class="text-2xl font-bold text-green-600">2024</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-gray-800">Partnership with local governments</p>
+                                <p class="text-sm text-gray-600">100+ community programs running</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-2">Meet Our Team</h3>
+                    <p class="text-gray-600 mb-8">Passionate experts dedicated to environmental education</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                        <div class="p-6 bg-white rounded-xl shadow-lg flex flex-col items-center text-center space-y-4">
+                            <img src="https://placehold.co/100x100/10b981/ffffff?text=KC" alt="Dr. Shivam Shukla  " class="rounded-full h-24 w-24 object-cover">
+                            <h4 class="text-lg font-semibold text-gray-800"> Shivam Shukla </h4>
+                            <p class="text-sm text-green-600 font-bold">Founder & Environmental Scientist</p>
+                            <p class="text-xs text-gray-600">PhD in Environmental Science with 15+ years in waste management research.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-xl shadow-lg flex flex-col items-center text-center space-y-4">
+                            <img src="https://placehold.co/100x100/10b981/ffffff?text=AD" alt="Aaditya das" class="rounded-full h-24 w-24 object-cover">
+                            <h4 class="text-lg font-semibold text-gray-800">Aaditya das</h4>
+                            <p class="text-sm text-green-600 font-bold">Community Outreach Director</p>
+                            <p class="text-xs text-gray-600">Former city planner specializing in sustainable community development.</p>
+                        </div>
+                        <div class="p-6 bg-white rounded-xl shadow-lg flex flex-col items-center text-center space-y-4">
+                            <img src="https://placehold.co/100x100/10b981/ffffff?text=Jeba" alt="Miss Jeba Roselt" class="rounded-full h-24 w-24 object-cover">
+                            <h4 class="text-lg font-semibold text-gray-800">Miss Jeba Roselt</h4>
+                            <p class="text-sm text-green-600 font-bold">Education Program Manager</p>
+                            <p class="text-xs text-gray-600">Expert educator with background in environmental awareness programs.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Terms of Service Section -->
+        <div id="terms-of-service" class="page-content">
+            <section class="container mx-auto p-6 max-w-4xl">
+                <h2 class="text-3xl font-bold text-green-600 mb-4">Terms of Service</h2>
+                <div class="prose max-w-none text-gray-700">
+                    <p><strong>1. Acceptance of Terms</strong><br>By accessing or using the EcoSort website and its services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.</p>
+                    <p><strong>2. User Conduct</strong><br>You agree to use the website for lawful purposes only. You are prohibited from using the site to transmit any material that is illegal, harmful, or infringes on the rights of others. Unauthorized use of the website may give rise to a claim for damages and/or be a criminal offense.</p>
+                    <p><strong>3. Intellectual Property</strong><br>All content, including text, graphics, logos, and images, is the property of EcoSort or its content suppliers and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works from this content without our express written permission.</p>
+                    <p><strong>4. Disclaimer of Warranties</strong><br>The information and content on this website are provided "as is" and without warranties of any kind, either express or implied. EcoSort does not warrant that the website will be uninterrupted or error-free.</p>
+                    <p><strong>5. Limitation of Liability</strong><br>In no event shall EcoSort be liable for any damages, including but not limited to direct, indirect, incidental, or consequential damages, arising from the use of or inability to use the website.</p>
+                    <p><strong>6. Governing Law</strong><br>These Terms of Service are governed by the laws of [Your Jurisdiction], and any disputes shall be resolved in the courts of that jurisdiction.</p>
+                    <p><strong>7. Changes to Terms</strong><br>EcoSort reserves the right to modify these Terms of Service at any time. Your continued use of the website after any such changes constitutes your acceptance of the new terms.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Privacy Policy Section -->
+        <div id="privacy-policy" class="page-content">
+            <section class="container mx-auto p-6 max-w-4xl">
+                <h2 class="text-3xl font-bold text-green-600 mb-4">Privacy Policy</h2>
+                <div class="prose max-w-none text-gray-700">
+                    <p><strong>1. Information We Collect</strong><br>We collect personal information that you voluntarily provide to us when you register on the website, use our services, or contact us. This information may include your name, email address, and any other details you provide in the contact form.</p>
+                    <p><strong>2. How We Use Your Information</strong><br>We use the information we collect to provide and maintain our services, respond to your inquiries, and improve the user experience. We will not sell or rent your personal information to third parties without your consent.</p>
+                    <p><strong>3. Data Security</strong><br>We have implemented reasonable security measures to protect your personal information from unauthorized access and disclosure. However, no method of transmission over the internet is completely secure, and we cannot guarantee absolute security.</p>
+                    <p><strong>4. Third-Party Links</strong><br>This website may contain links to third-party websites. We are not responsible for the privacy practices or content of these third-party sites. We encourage you to review their privacy policies before providing any personal information.</p>
+                    <p><strong>5. Cookies</strong><br>Our website uses cookies to enhance your browsing experience. Cookies are small files stored on your device that help us remember your preferences and provide personalized content. You can disable cookies in your browser settings, but this may affect the functionality of the website.</p>
+                    <p><strong>6. Changes to This Policy</strong><br>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page. Your continued use of the website after any changes constitutes your acceptance of the revised policy.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-green-700 text-white p-8">
+        <div class="container mx-auto">
+            <!-- Main Footer Content -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div class="md:col-span-1">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM8 20V4h2v16H8zm4-2h2V6h-2v12zm4-2h2V8h-2v8z"/>
+                        </svg>
+                        <h3 class="text-xl font-bold">EcoSort</h3>
+                    </div>
+                    <p class="text-green-200 text-sm">Empowering households to make a positive environmental impact through simple, effective waste segregation practices.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('home')">Home</a></li>
+                        <li><a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('waste-types')">Waste Types</a></li>
+                        <li><a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('regulations')">Regulations</a></li>
+                        <li><a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('upcycling')">Upcycling</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('faq')">FAQ</a></li>
+                        <li><a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('contact')">Contact</a></li>
+                        <li><a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('about')">About Us</a></li>
+                        <li><a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('tips')">Tips & Guides</a></li>
+                    </ul>
+                </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://facebook.com" target="_blank" class="text-green-200 hover:text-white transition-colors duration-200">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="text-green-200 hover:text-white transition-colors duration-200">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.346-1.24-.898-.75-1.347-1.804-1.347-3.162 0-1.358.449-2.412 1.347-3.162.898-.75 2.049-1.24 3.346-1.24 1.297 0 2.448.49 3.346 1.24.898.75 1.347 1.804 1.347 3.162 0 1.358-.449 2.412-1.347 3.162-.898.75-2.049 1.24-3.346 1.24zm7.718 0c-1.297 0-2.448-.49-3.346-1.24-.898-.75-1.347-1.804-1.347-3.162 0-1.358.449-2.412 1.347-3.162.898-.75 2.049-1.24 3.346-1.24 1.297 0 2.448.49 3.346 1.24.898.75 1.347 1.804 1.347 3.162 0 1.358-.449 2.412-1.347 3.162-.898.75-2.049 1.24-3.346 1.24z"/>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="text-green-200 hover:text-white transition-colors duration-200">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="text-green-200 hover:text-white transition-colors duration-200">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="text-green-200 text-sm">Stay updated with our latest tips and environmental insights.</p>
+                </div>
+            </div>
+
+            <!-- Legal Links -->
+            <div class="border-t border-green-600 pt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <div class="flex flex-wrap justify-center md:justify-start space-x-6 text-sm">
+                        <a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('privacy-policy')">Privacy Policy</a>
+                        <a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('terms-of-service')">Terms of Service</a>
+                        <a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('contact')">Contact</a>
+                        <a href="#" class="text-green-200 hover:text-white transition-colors duration-200" onclick="showPage('faq')">FAQ</a>
+                    </div>
+                    <p class="text-green-200 text-sm">&copy; 2024 EcoSort. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data for the lookup tool
+        const wasteData = {
+            "plastic bottle": { category: "Dry Waste", description: "Rinse it and remove the cap. Place it in the recycling bin." },
+            "banana peel": { category: "Wet Waste", description: "This is organic waste. It should go in your composting or wet waste bin." },
+            "paper": { category: "Dry Waste", description: "Place in the dry waste or recycling bin. Ensure it is not contaminated with food or liquids." },
+            "glass bottle": { category: "Dry Waste", description: "Rinse thoroughly and place in the recycling bin. Remove any metal caps or labels." },
+            "used batteries": { category: "Hazardous Household Waste", description: "Do not mix with regular waste. Store separately and take to a designated hazardous waste collection center." },
+            "food leftovers": { category: "Wet Waste", description: "Compost or dispose of in the wet waste bin. Do not put cooked oils or excessive liquid." },
+            "sanitary napkins": { category: "Sanitary Waste", description: "Wrap securely in a paper or bag and dispose of in a separate bin for sanitary waste." },
+            "old phone": { category: "E-Waste", description: "Take to a certified e-waste recycling facility. Do not throw in the trash." },
+            "cardboard box": { category: "Dry Waste", description: "Flatten the box and place it in the dry waste bin. It can be recycled." },
+            "aluminum can": { category: "Dry Waste", description: "Rinse and crush to save space, then place in the recycling bin." },
+            "vegetable peels": { category: "Wet Waste", description: "Ideal for home composting. Put in the wet waste bin." },
+            "light bulb": { category: "Hazardous Household Waste", description: "Handle with care to avoid breaking. Dispose of at a designated hazardous waste drop-off location." },
+            "plastic bag": { category: "Dry Waste", description: "Can often be recycled, but check local guidelines. Ensure it's clean and dry." }
+        };
+
+        // Data for the FAQ page
+        const faqData = [
+            { question: "What is waste segregation and why is it important?", answer: "Waste segregation is the process of separating different types of waste at the source. It is important because it reduces the volume of waste sent to landfills, helps in effective recycling and composting, and prevents environmental pollution.", category: "Getting Started" },
+            { question: "How many bins do I need to start waste segregation at home?", answer: "At a minimum, you should have three bins: one for Wet Waste (organic), one for Dry Waste (recyclables), and a third for sanitary and hazardous waste.", category: "Getting Started" },
+            { question: "What's the difference between recyclable and non-recyclable plastics?", answer: "Recyclable plastics typically have a recycling symbol with a number from 1 to 7. Non-recyclable plastics are often multi-layered, thin wrappers, or have no symbol. Always check with your local recycling program for specifics.", category: "Recyclables" },
+            { question: "Can I put all food waste in the organic bin?", answer: "You can put most food waste like fruit peels, vegetable scraps, and leftover food in the organic bin. However, cooked oils, meat, and bones are generally not suitable for home composting and should be disposed of as per local guidelines.", category: "Organic Waste" },
+            { question: "Can I start composting even if I live in an apartment?", answer: "Yes! You can use small-scale indoor composting methods like vermicomposting (using worms) or bokashi composting, which are suitable for apartments and don't produce odors.", category: "Organic Waste" },
+            { question: "Do I need to remove labels from jars and bottles before recycling?", answer: "It is a good practice to remove labels, but most recycling facilities have processes to handle them. The most important thing is to rinse the containers and remove the caps.", category: "Recyclables" },
+            { question: "Why do some areas not accept glass in curbside recycling?", answer: "Glass recycling can be challenging due to its weight, cost of transportation, and the risk of contamination from broken glass. Some municipalities have dedicated drop-off points for glass instead of curbside collection.", category: "Recyclables" },
+            { question: "What should I do with electronics and batteries?", answer: "Electronics and batteries should never be put in regular trash as they contain hazardous materials. They must be taken to a certified e-waste recycling center or a designated collection point.", category: "Hazardous Waste" },
+            { question: "What qualifies as hazardous waste from households?", answer: "Hazardous household waste includes items that are toxic, flammable, or corrosive, such as batteries, cleaning chemicals, paint, pesticides, and expired medicines.", category: "Hazardous Waste" },
+            { question: "How do I dispose of old medications safely?", answer: "Do not flush medications down the toilet or throw them in the trash. The best way to dispose of them is to take them to a pharmacy or a community drug take-back program.", category: "Hazardous Waste" },
+            { question: "Can I put paint cans in regular trash if they're empty?", answer: "Empty paint cans are generally considered safe, but it's best to check with your local waste management facility. Some require you to dry out the paint residue completely before disposal.", category: "Hazardous Waste" },
+            { question: "What if my recycling keeps getting rejected by collectors?", answer: "This is often due to contamination. Make sure your recyclables are clean and dry, and that you are following the specific guidelines for your area. Try the lookup tool on this site for help!", category: "Troubleshooting" },
+            { question: "My family won't participate in waste segregation. What can I do?", answer: "Start small and make it simple. Set up a clear system with labeled bins, and educate them on the 'why' behind it. Lead by example and celebrate small wins.", category: "Troubleshooting" },
+            { question: "I don't have space for multiple bins. What are my options?", answer: "You can use a multi-compartment bin or dedicate one large bin for recyclables and sort it once or twice a week into bags. Check for drop-off centers for specific waste types to reduce the need for multiple bins at home.", category: "Troubleshooting" },
+            { question: "How do I find out what my local recycling program accepts?", answer: "The best way is to visit your local city or municipality's website. They usually have a detailed guide on what is accepted for curbside collection and where to take other items.", category: "Local Guidelines" },
+            { question: "Why do recycling rules differ between cities?", answer: "Recycling rules depend on the technology of the local Material Recovery Facility (MRF), the local market for recycled materials, and the specific regulations of the city or state.", category: "Local Guidelines" }
+        ];
+
+        let currentFilter = 'All Questions';
+
+        function showPage(pageId) {
+            try {
+                document.querySelectorAll('.page-content').forEach(page => {
+                    page.classList.remove('active');
+                });
+                const pageElement = document.getElementById(pageId);
+                if (pageElement) {
+                    pageElement.classList.add('active');
+                }
+
+                // Close all FAQ items when navigating to a different page
+                if (pageId !== 'faq') {
+                    document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
+                        openAnswer.classList.remove('open');
+                        const svg = openAnswer.previousElementSibling.querySelector('svg');
+                        if (svg) {
+                            svg.classList.remove('rotate-45');
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Error in showPage:", error);
+            }
+        }
+
+        function toggleDropdown() {
+            try {
+                const dropdown = document.getElementById('services-dropdown-menu');
+                dropdown.classList.toggle('hidden');
+            } catch (error) {
+                console.error("Error in toggleDropdown:", error);
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            try {
+                const dropdown = document.getElementById('services-dropdown-menu');
+                const dropdownBtn = document.getElementById('services-dropdown-btn');
+                if (!dropdown.contains(event.target) && !dropdownBtn.contains(event.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error("Error handling document click:", error);
+            }
+        });
+
+        function lookupWaste() {
+            try {
+                const input = document.getElementById('waste-input').value.trim().toLowerCase();
+                const resultsDiv = document.getElementById('lookup-results');
+                resultsDiv.innerHTML = '';
+                resultsDiv.classList.add('hidden');
+
+                const item = wasteData[input];
+
+                if (item) {
+                    resultsDiv.innerHTML = `
+                        <div class="lookup-item-card p-6 rounded-2xl">
+                            <h3 class="text-xl font-bold text-green-700 mb-2">${input.charAt(0).toUpperCase() + input.slice(1)}</h3>
+                            <p class="text-lg mb-1"><span class="font-semibold">Category:</span> <span class="text-green-600">${item.category}</span></p>
+                            <p class="text-gray-600">${item.description}</p>
+                        </div>
+                    `;
+                    resultsDiv.classList.remove('hidden');
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="p-6 text-center text-red-500">
+                            <p>Sorry, we couldn't find a match for that item. Please try another or check local guidelines.</p>
+                        </div>
+                    `;
+                    resultsDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Error in lookupWaste:", error);
+            }
+        }
+
+        function renderFAQs(faqs) {
+            try {
+                const faqList = document.getElementById('faq-list');
+                faqList.innerHTML = '';
+                faqs.forEach(faq => {
+                    const faqItem = document.createElement('div');
+                    faqItem.classList.add('border', 'border-gray-200', 'rounded-xl', 'shadow-sm');
+                    faqItem.innerHTML = `
+                        <button class="faq-item-button" onclick="toggleAnswer(this)">
+                            <span>${faq.question}</span>
+                            <span class="text-sm px-2 py-1 bg-gray-100 rounded-full text-gray-600">${faq.category}</span>
+                            <svg class="h-5 w-5 ml-4 text-gray-500 transform transition-transform duration-300" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer p-4">
+                            <p class="text-gray-600">${faq.answer}</p>
+                        </div>
+                    `;
+                    faqList.appendChild(faqItem);
+                });
+            } catch (error) {
+                console.error("Error in renderFAQs:", error);
+            }
+        }
+
+        function toggleAnswer(button) {
+            try {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('svg');
+
+                const isAlreadyOpen = answer.classList.contains('open');
+
+                // Close all other open answers
+                document.querySelectorAll('.faq-answer.open').forEach(openAnswer => {
+                    openAnswer.classList.remove('open');
+                    const svg = openAnswer.previousElementSibling.querySelector('svg');
+                    if (svg) {
+                        svg.classList.remove('rotate-45');
+                    }
+                });
+
+                // If the clicked one wasn't already open, open it
+                if (!isAlreadyOpen) {
+                    answer.classList.add('open');
+                    icon.classList.add('rotate-45');
+                }
+            } catch (error) {
+                console.error("Error in toggleAnswer:", error);
+            }
+        }
+
+        function filterFAQs(category = null) {
+            try {
+                const searchQuery = document.getElementById('faq-search').value.toLowerCase();
+                let filteredFAQs = faqData;
+
+                // Remove active class from all buttons
+                document.querySelectorAll('#faq-buttons button').forEach(btn => {
+                    btn.classList.remove('bg-green-500', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                });
+
+                if (category && category !== 'All Questions') {
+                    filteredFAQs = filteredFAQs.filter(faq => faq.category === category);
+                    // Add active class to the clicked button
+                    const activeBtn = document.querySelector(`#faq-buttons button[onclick*="${category}"]`);
+                    if (activeBtn) {
+                        activeBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                        activeBtn.classList.add('bg-green-500', 'text-white');
+                    }
+                } else {
+                    const allQuestionsBtn = document.getElementById('allQuestionsBtn');
+                    if (allQuestionsBtn) {
+                        allQuestionsBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                        allQuestionsBtn.classList.add('bg-green-500', 'text-white');
+                    }
+                }
+
+                if (searchQuery) {
+                    filteredFAQs = filteredFAQs.filter(faq => 
+                        faq.question.toLowerCase().includes(searchQuery) ||
+                        faq.answer.toLowerCase().includes(searchQuery)
+                    );
+                }
+
+                renderFAQs(filteredFAQs);
+            } catch (error) {
+                console.error("Error in filterFAQs:", error);
+            }
+        }
+
+        function filterUpcyclingProjects(category) {
+            try {
+                // Remove active class from all filter buttons
+                document.querySelectorAll('.upcycling-filter-btn').forEach(btn => {
+                    btn.classList.remove('bg-purple-500', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-700');
+                });
+
+                // Add active class to clicked button
+                const activeButton = event.target;
+                activeButton.classList.remove('bg-white', 'text-gray-700');
+                activeButton.classList.add('bg-purple-500', 'text-white');
+
+                // Get all project cards
+                const projects = document.querySelectorAll('.upcycling-project');
+
+                projects.forEach(project => {
+                    if (category === 'All' || project.dataset.category === category) {
+                        project.style.display = 'block';
+                    } else {
+                        project.style.display = 'none';
+                    }
+                });
+            } catch (error) {
+                console.error("Error in filterUpcyclingProjects:", error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFAQs(faqData);
+            document.getElementById('faq-search').addEventListener('input', () => filterFAQs(currentFilter));
+        });
+    </script>
+        <script src="script.js"></script>
+
+</body>
+</html>
